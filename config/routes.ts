@@ -14,7 +14,7 @@
         ],
       },
       {
-        component: './404',
+        component: './Error/404',
       },
     ],
   },
