@@ -19,40 +19,29 @@
     ],
   },
   {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
-    component: './Welcome',
-  },
-  {
-    path: '/admin',
-    name: 'admin',
-    icon: 'crown',
-    access: 'canAdmin',
-    component: './Admin',
+    path: '/',
+    name: 'dashboard',
+    icon: 'DashboardOutlined',
     routes: [
       {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        icon: 'smile',
-        component: './Welcome',
+        path: '/analysis',
+        name: 'analysis',
+        icon: 'FundOutlined',
+        component: './Dashboard/Analysis'
       },
       {
-        component: './404',
-      },
-    ],
-  },
-  {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
+        path: '/workplace',
+        name: 'workplace',
+        icon: 'FundOutlined',
+        component: './Dashboard/Workplace'
+      }
+    ]
   },
   {
     path: '/',
-    redirect: '/welcome',
+    redirect: '/analysis',
   },
   {
-    component: './404',
+    component: './Error/404',
   },
 ];
