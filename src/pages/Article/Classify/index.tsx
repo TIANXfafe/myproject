@@ -1,8 +1,9 @@
-import React from "react";
-import {Card, Form, Statistic, Button, Tag} from "antd";
+import React, {useState} from "react";
+import {Card, Form, Statistic, Button, Tag, Modal} from "antd";
 import { DownOutlined } from '@ant-design/icons';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns } from '@ant-design/pro-table';
+import ProForm, { ProFormText, ProFormRadio } from '@ant-design/pro-form';
 import QueueAnim from "rc-queue-anim";
 import MainContent from "@/components/MainContent";
 import StandardFormRow from '@/components/StandardFormRow';
@@ -43,6 +44,9 @@ const Content: React.FC = () => (
 
 const Classify: React.FC = () => {
   const [form] = Form.useForm();
+
+  const [visible, setVisible] = useState<boolean>(false);
+  const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
 
   const columns: ProColumns<TableListItem>[] = [
     {
@@ -95,6 +99,14 @@ const Classify: React.FC = () => {
     },
   ]
 
+  const handleOk = () => {
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setVisible(false);
+      setConfirmLoading(false);
+    }, 2000);
+  }
+
   return (
     <MainContent
       content={<Content />}
@@ -123,14 +135,13 @@ const Classify: React.FC = () => {
           <ProTable
             columns={columns}
             rowKey="key"
-            request={
-              async () => {
-                const params: any = {}
-                const response = await fetchClassifies(params)
-                console.log('response', response)
-                return response
-              }
-            }
+            request={async () => {
+              const params: any = {}
+              console.log('params', params)
+              const response = await fetchClassifies(params)
+              console.log('response', response)
+              return response
+            }}
             pagination={{
               showQuickJumper: true,
             }}
@@ -142,13 +153,50 @@ const Classify: React.FC = () => {
                 导出数据
                 <DownOutlined />
               </Button>,
-              <Button key="primary" type="primary">
+              <Button key="primary" type="primary" onClick={() => setVisible(true)}>
                 新增分类
               </Button>,
             ]}
           />
         </Card>
       </QueueAnim>
+      <Modal
+        title="新增分类"
+        visible={visible}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={() => setVisible(false)}
+      >
+      <ProForm>
+        <ProFormRadio.Group
+          style={{
+            margin: 16,
+          }}
+          label="标签布局"
+          radioType="button"
+          options={['horizontal', 'vertical', 'inline']}
+        />
+        <ProFormText
+          width="md"
+          name="name"
+          label="分类名称"
+          tooltip="最长为 24 位"
+          placeholder="请输入分类名称"
+        />
+        <ProFormText
+          width="md"
+          name="company"
+          label="我方公司名称"
+          placeholder="请输入名称"
+        />
+        <ProFormText
+          name={['contract', 'name']}
+          width="md"
+          label="合同名称"
+          placeholder="请输入名称"
+        />
+      </ProForm>
+      </Modal>
     </MainContent>
   );
 };
