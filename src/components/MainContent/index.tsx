@@ -1,12 +1,22 @@
 import React from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 
-const MainContent: React.FC = (props) => {
+interface Props {
+  content?: React.ReactNode,
+  extraContent?: React.ReactNode
+}
+
+const MainContent: React.FC<Props> = ({
+  content,
+  extraContent,
+  children
+}) => {
   return (
-    <PageContainer>
-      {
-        props.children
-      }
+    <PageContainer
+      content={content}
+      extraContent={extraContent}
+    >
+      {children}
     </PageContainer>
   )
 }
