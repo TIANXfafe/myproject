@@ -48,4 +48,7 @@ export default {
   'menu.dashboard': '仪表盘',
   'menu.dashboard.analysis': '分析页',
   'menu.dashboard.workplace': '工作台',
+  'menu.article': '文章',
+  'menu.article.classify': '文章分类',
+  'menu.article.list': '文章列表',
 };

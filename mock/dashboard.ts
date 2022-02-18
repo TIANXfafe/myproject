@@ -22,7 +22,7 @@ const avatars = [
 ];
 
 export default {
-  'GET /api/project/notice': (req: Request, res: Response) => {
+  'GET /api/project/notice': async (req: Request, res: Response) => {
     res.send({
       code: 200,
       message: '成功',

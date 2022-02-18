@@ -19,21 +19,46 @@
     ],
   },
   {
-    path: '/',
+    path: '/dashboard',
     name: 'dashboard',
     icon: 'DashboardOutlined',
     routes: [
       {
-        path: '/analysis',
+        path: '/dashboard/analysis',
         name: 'analysis',
-        icon: 'FundOutlined',
         component: './Dashboard/Analysis'
       },
       {
-        path: '/workplace',
+        path: '/dashboard/workplace',
         name: 'workplace',
-        icon: 'FundOutlined',
         component: './Dashboard/Workplace'
+      },
+      {
+        component: './Error/404',
+      }
+    ]
+  },
+  {
+    path: '/article',
+    name: 'article',
+    icon: 'BookOutlined',
+    routes: [
+      {
+        path: '/article/classify',
+        name: 'classify',
+        component: './Article/Classify'
+      },
+      {
+        path: '/article/list',
+        name: 'list',
+        component: './Article/List'
+      },
+      {
+        path: '/article/detail',
+        component: './Article/Detail'
+      },
+      {
+        component: './Error/404',
       }
     ]
   },
