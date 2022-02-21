@@ -1,9 +1,9 @@
-import React, {useState} from "react";
-import {Card, Form, Statistic, Button, Tag, Modal} from "antd";
-import { DownOutlined } from '@ant-design/icons';
+import React from "react";
+import {Card, Form, Statistic, Button, Tag, message} from "antd";
+import { DownOutlined, PlusOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns } from '@ant-design/pro-table';
-import ProForm, { ProFormText, ProFormRadio } from '@ant-design/pro-form';
+import { ModalForm, ProFormText, ProFormSwitch, ProFormSelect } from '@ant-design/pro-form';
 import QueueAnim from "rc-queue-anim";
 import MainContent from "@/components/MainContent";
 import StandardFormRow from '@/components/StandardFormRow';
@@ -13,8 +13,16 @@ import styles from "./index.less";
 import moment from "moment";
 
 export type Status = {
-  color: string;
+  flag: boolean;
   text: string;
+};
+
+const waitTime = (time: number = 100) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, time);
+  });
 };
 
 export type TableListItem = {
@@ -45,23 +53,20 @@ const Content: React.FC = () => (
 const Classify: React.FC = () => {
   const [form] = Form.useForm();
 
-  const [visible, setVisible] = useState<boolean>(false);
-  const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
-
   const columns: ProColumns<TableListItem>[] = [
     {
       title: '分类名称',
-      width: 120,
+      width: 180,
       dataIndex: 'name',
       align: 'center',
       render: (_) => <a>{_}</a>,
     },
     {
       title: '状态',
-      width: 120,
+      width: 90,
       dataIndex: 'status',
       align: 'center',
-      render: (_, record) =><Tag color={record.status.color}>{record.status.text}</Tag>,
+      render: (_, record) =><Tag color={record.status.flag ? 'green' : 'red'}>{record.status.text}</Tag>,
     },
     {
       title: '文章数量',
@@ -98,14 +103,6 @@ const Classify: React.FC = () => {
       ],
     },
   ]
-
-  const handleOk = () => {
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setVisible(false);
-      setConfirmLoading(false);
-    }, 2000);
-  }
 
   return (
     <MainContent
@@ -153,50 +150,70 @@ const Classify: React.FC = () => {
                 导出数据
                 <DownOutlined />
               </Button>,
-              <Button key="primary" type="primary" onClick={() => setVisible(true)}>
-                新增分类
-              </Button>,
+              <ModalForm
+                key="primary"
+                title="新增分类"
+                width="400px"
+                trigger={
+                  <Button type="primary">
+                    新增分类
+                    <PlusOutlined />
+                  </Button>
+                }
+                autoFocusFirstInput
+                onFinish={async (values) => {
+                  await waitTime(2000);
+                  console.log(values);
+                  message.success('提交成功');
+                  return true;
+                }}
+                initialValues={{
+                  status: false,
+                  parentCate: 'gen'
+                }}
+              >
+                <ProFormText
+                  name="classifyName"
+                  label="分类名称"
+                  placeholder="请输入分类名称！"
+                  rules={[{ required: true, message: '请输入分类名称！' }]}
+                />
+                <ProFormSelect
+                  name="parentCate"
+                  label="父级分类"
+                  showSearch
+                  debounceTime={300}
+                  request={async () => {
+                    await waitTime(1000);
+                    return [
+                      {
+                        id: 1,
+                        label: '根目录',
+                        name: '01',
+                        value: 'gen'
+                      },
+                      {
+                        id: 2,
+                        label: '一级分类1',
+                        name: '02',
+                        value: "yi"
+                      }
+                    ]
+                  }}
+                  placeholder="请选择父级分类！"
+                  rules={[{ required: true, message: '请选择父级分类！' }]}
+                />
+                <ProFormSwitch
+                  name="status"
+                  label="是否发布"
+                  checkedChildren={<CheckOutlined />}
+                  unCheckedChildren={<CloseOutlined />}
+                />
+              </ModalForm>
             ]}
           />
         </Card>
       </QueueAnim>
-      <Modal
-        title="新增分类"
-        visible={visible}
-        onOk={handleOk}
-        confirmLoading={confirmLoading}
-        onCancel={() => setVisible(false)}
-      >
-      <ProForm>
-        <ProFormRadio.Group
-          style={{
-            margin: 16,
-          }}
-          label="标签布局"
-          radioType="button"
-          options={['horizontal', 'vertical', 'inline']}
-        />
-        <ProFormText
-          width="md"
-          name="name"
-          label="分类名称"
-          tooltip="最长为 24 位"
-          placeholder="请输入分类名称"
-        />
-        <ProFormText
-          width="md"
-          name="company"
-          label="我方公司名称"
-          placeholder="请输入名称"
-        />
-        <ProFormText
-          name={['contract', 'name']}
-          width="md"
-          label="合同名称"
-          placeholder="请输入名称"
-        />
-      </ProForm>
-      </Modal>
     </MainContent>
   );
 };
