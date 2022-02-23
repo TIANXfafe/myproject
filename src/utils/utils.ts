@@ -9,6 +9,7 @@ export function uuid() {
   for (let i: number = 0; i < 36; i++) {
     arr[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
   }
+  arr[8] = arr[13] = arr[18] = arr[23] = '-'
   const uniqueId: string = arr.join('');
   return uniqueId;
 }
