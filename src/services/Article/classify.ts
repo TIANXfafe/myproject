@@ -5,8 +5,8 @@ import { request } from "umi";
  * @param options
  */
 export const fetchClassifies = async(params: any, options?: { [key: string]: any }) => {
-  return request<API.NoticeIconList>('/api/article/classify', {
-    method: 'POST',
+  return request<API.NoticeIconList>('/v1/article/classify', {
+    method: 'GET',
     data: {
       ...params
     },
