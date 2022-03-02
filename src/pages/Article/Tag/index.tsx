@@ -87,6 +87,42 @@ const TagList: React.FC = () => {
                   <Tag color={colorGroup[Math.floor(Math.random()*11)]}>gold</Tag>
                 </div>
               </div>
+              <div key="5" className={styles.tagItem}>
+                <div className={styles.tagCheckbox}><Checkbox /></div>
+                <div className={styles.tagBox}>
+                  <Tag color={colorGroup[Math.floor(Math.random()*11)]}>gold</Tag>
+                </div>
+              </div>
+              <div key="6" className={styles.tagItem}>
+                <div className={styles.tagCheckbox}><Checkbox /></div>
+                <div className={styles.tagBox}>
+                  <Tag color={colorGroup[Math.floor(Math.random()*11)]}>gold</Tag>
+                </div>
+              </div>
+              <div key="7" className={styles.tagItem}>
+                <div className={styles.tagCheckbox}><Checkbox /></div>
+                <div className={styles.tagBox}>
+                  <Tag color={colorGroup[Math.floor(Math.random()*11)]}>gold</Tag>
+                </div>
+              </div>
+              <div key="8" className={styles.tagItem}>
+                <div className={styles.tagCheckbox}><Checkbox /></div>
+                <div className={styles.tagBox}>
+                  <Tag color={colorGroup[Math.floor(Math.random()*11)]}>gold</Tag>
+                </div>
+              </div>
+              <div key="9" className={styles.tagItem}>
+              <div className={styles.tagCheckbox}><Checkbox /></div>
+              <div className={styles.tagBox}>
+                <Tag color={colorGroup[Math.floor(Math.random()*11)]}>gold</Tag>
+              </div>
+            </div>
+              <div key="10" className={styles.tagItem}>
+                <div className={styles.tagCheckbox}><Checkbox /></div>
+                <div className={styles.tagBox}>
+                  <Tag color={colorGroup[Math.floor(Math.random()*11)]}>gold</Tag>
+                </div>
+              </div>
             </QueueAnim>
           </div>
         </QueueAnim>

@@ -2,8 +2,8 @@ import React from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 
 interface Props {
-  content?: React.ReactNode,
-  extraContent?: React.ReactNode
+  content?: React.ReactNode;
+  extraContent?: React.ReactNode;
 }
 
 const MainContent: React.FC<Props> = ({

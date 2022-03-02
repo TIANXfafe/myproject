@@ -51,4 +51,5 @@ export default {
   'menu.article': '文章',
   'menu.article.classify': '文章分类',
   'menu.article.list': '文章列表',
+  'menu.article.tag': '文章标签',
 };

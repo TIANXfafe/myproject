@@ -49,9 +49,18 @@
         component: './Article/Classify'
       },
       {
+        path: '/article/tag',
+        name: 'tag',
+        component: './Article/Tag'
+      },
+      {
         path: '/article/list',
         name: 'list',
         component: './Article/List'
+      },
+      {
+        path: '/article/create',
+        component: './Article/Create'
       },
       {
         path: '/article/detail',

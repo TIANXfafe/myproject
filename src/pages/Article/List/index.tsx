@@ -1,12 +1,13 @@
 import React from "react";
-import {Button, Card, message, Tag} from "antd";
+import { history } from "umi";
+import {Button, Card, Tag} from "antd";
 import ProTable from "@ant-design/pro-table";
 import type { ProColumns } from '@ant-design/pro-table';
-import {ModalForm, ProFormSelect, ProFormSwitch, ProFormText} from "@ant-design/pro-form";
-import {CheckOutlined, CloseOutlined, DownOutlined, PlusOutlined} from "@ant-design/icons";
+import {  DownOutlined, PlusOutlined } from "@ant-design/icons";
 import MainContent from "@/components/MainContent";
-import {fetchClassifies} from "@/services/Article/classify";
+import { fetchClassifies } from "@/services/Article/classify";
 import moment from "moment";
+
 
 export type Status = {
   flag: boolean;
@@ -98,66 +99,10 @@ const List: React.FC = () => {
               导出数据
               <DownOutlined />
             </Button>,
-            <ModalForm
-              key="primary"
-              title="新增分类"
-              width="400px"
-              trigger={
-                <Button type="primary">
-                  新增分类
-                  <PlusOutlined />
-                </Button>
-              }
-              autoFocusFirstInput
-              onFinish={async (values) => {
-                await waitTime(2000);
-                console.log(values);
-                message.success('提交成功');
-                return true;
-              }}
-              initialValues={{
-                status: false,
-                parentCate: 'gen'
-              }}
-            >
-              <ProFormText
-                name="classifyName"
-                label="分类名称"
-                placeholder="请输入分类名称！"
-                rules={[{ required: true, message: '请输入分类名称！' }]}
-              />
-              <ProFormSelect
-                name="parentCate"
-                label="父级分类"
-                showSearch
-                debounceTime={300}
-                request={async () => {
-                  await waitTime(1000);
-                  return [
-                    {
-                      id: 1,
-                      label: '根目录',
-                      name: '01',
-                      value: 'gen'
-                    },
-                    {
-                      id: 2,
-                      label: '一级分类1',
-                      name: '02',
-                      value: "yi"
-                    }
-                  ]
-                }}
-                placeholder="请选择父级分类！"
-                rules={[{ required: true, message: '请选择父级分类！' }]}
-              />
-              <ProFormSwitch
-                name="status"
-                label="是否发布"
-                checkedChildren={<CheckOutlined />}
-                unCheckedChildren={<CloseOutlined />}
-              />
-            </ModalForm>
+            <Button key="add" type="primary" onClick={() => history.push("/article/create")}>
+              新增文章
+              <PlusOutlined />
+            </Button>
           ]}
         />
       </Card>
