@@ -52,4 +52,6 @@ export default {
   'menu.article.classify': '文章分类',
   'menu.article.list': '文章列表',
   'menu.article.tag': '文章标签',
+  'menu.template': '模板管理',
+  'menu.template.list': '模板列表',
 };

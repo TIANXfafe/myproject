@@ -72,6 +72,21 @@
     ]
   },
   {
+    path: '/template',
+    name: 'template',
+    icon: 'BuildOutlined',
+    routes: [
+      {
+        path: '/template/list',
+        name: 'list',
+        component: './Template/List'
+      },
+      {
+        component: './Error/404',
+      }
+    ]
+  },
+  {
     path: '/',
     redirect: '/analysis',
   },
