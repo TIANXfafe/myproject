@@ -1,34 +1,25 @@
 import React from "react";
-import { Button, DatePicker, Space, Table, Image } from "antd";
+import { history } from "umi";
+import { Button, DatePicker, Space, Table, Image, Tag, Popconfirm } from "antd";
+import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
 import type { ProColumns } from "@ant-design/pro-table";
 import ProTable from "@ant-design/pro-table";
 import MainContent from "@/components/MainContent";
 
 const { RangePicker } = DatePicker;
 
-const valueEnum = {
-  0: 'close',
-  1: 'running',
-  2: 'online',
-  3: 'error',
-};
-
-const ProcessMap = {
-  close: 'normal',
-  running: 'active',
-  online: 'success',
-  error: 'exception',
-};
-
 export type TableListItem = {
   key: number;
   name: string;
+  img: string;
+  platform: string;
   progress: number;
   containers: number;
   callNumber: number;
   creator: string;
-  status: string;
-  createdAt: number;
+  createTime: number;
+  isPublish: boolean;
+  isLocked: boolean;
   memo: string;
 };
 
@@ -40,44 +31,46 @@ for (let i = 0; i < 5; i += 1) {
   tableListDataSource.push({
     key: i,
     name: 'AppName',
-    containers: Math.floor(Math.random() * 20),
+    img: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+    platform: 'PC',
     callNumber: Math.floor(Math.random() * 2000),
     progress: Math.ceil(Math.random() * 100) + 1,
     creator: creators[Math.floor(Math.random() * creators.length)],
-    status: valueEnum[Math.floor(Math.random() * 10) % 4],
-    createdAt: Date.now() - Math.floor(Math.random() * 100000),
-    memo: i % 2 === 1 ? '很长很长很长很长很长很长很长的文字要展示但是要留下尾巴' : '简短备注文案',
+    createTime: Date.now() - Math.floor(Math.random() * 100000),
+    isPublish: true,
+    isLocked: false,
+    remark: i % 2 === 1 ? '很长很长很长很长很长很长很长的文字要展示但是要留下尾巴' : '简短备注文案',
   });
 }
 
 const columns: ProColumns<TableListItem>[] = [
   {
-    title: '模版名称',
+    title: '模板名称',
     width: 120,
     dataIndex: 'name',
     fixed: 'left',
-    render: (_) => <a>{_}</a>,
+    render: (_) => <a>{_}</a>
   },
   {
     title: '封面图片',
     width: 120,
-    dataIndex: 'containers',
+    dataIndex: 'img',
     align: 'center',
     search: false,
-    render: () => <Image
+    render: (img) => <Image
       width={100}
-      src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+      src={img}
     />
   },
   {
     title: '使用平台',
     width: 120,
     align: 'center',
-    dataIndex: 'callNumber',
+    dataIndex: 'platform',
   },
   {
     title: '创建者',
-    width: 120,
+    width: 80,
     dataIndex: 'creator',
     valueType: 'select',
     align: 'center',
@@ -94,17 +87,31 @@ const columns: ProColumns<TableListItem>[] = [
     title: '创建时间',
     width: 260,
     key: 'since',
-    dataIndex: 'createdAt',
+    dataIndex: 'createTime',
     valueType: 'date',
     align: 'center',
-    sorter: (a, b) => a.createdAt - b.createdAt,
+    sorter: (a, b) => a.createTime - b.createTime,
     renderFormItem: () => {
       return <RangePicker />;
     },
   },
   {
+    title: '是否发布',
+    width: 80,
+    dataIndex: 'isPublish',
+    align: 'center',
+    render: (_) => _ ? <Tag color="success">已发布</Tag> :  <Tag color="error">未发布</Tag>
+  },
+  {
+    title: '是否锁定',
+    width: 80,
+    dataIndex: 'isLocked',
+    align: 'center',
+    render: (_) => _ ? <LockOutlined /> : <UnlockOutlined />
+  },
+  {
     title: '备注',
-    dataIndex: 'memo',
+    dataIndex: 'remark',
     ellipsis: true,
     copyable: true,
     search: false,
@@ -118,7 +125,9 @@ const columns: ProColumns<TableListItem>[] = [
     fixed: 'right',
     render: () => [
       <a key="link">编辑</a>,
-      <a key="link">删除</a>
+      <Popconfirm title="是否确认删除？" okText="确认" cancelText="取消" placement="topRight">
+        <a href="#">删除</a>
+      </Popconfirm>,
     ],
   },
 ];
@@ -156,14 +165,17 @@ const TemplateList: React.FC = () => {
         }}
         // Table 的数据
         dataSource={tableListDataSource}
-        scroll={{ x: 1300 }}
+        scroll={{ x: 1500 }}
         // 是否显示搜索表单，传入对象时为搜索表单的配置
         search={{
           labelWidth: 'auto',
         }}
         rowKey="key"
         // 渲染工具栏
-        toolBarRender={() => [<Button key="show">查看日志</Button>]}
+        toolBarRender={() => [
+          <Button type="primary" key="create" onClick={() => history.push("/template/create")}>新建模板</Button>,
+          <Button key="show">查看日志</Button>
+        ]}
       />
     </MainContent>
   );

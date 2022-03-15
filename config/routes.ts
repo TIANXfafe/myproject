@@ -82,6 +82,10 @@
         component: './Template/List'
       },
       {
+        path: '/template/create',
+        component: './Template/Create'
+      },
+      {
         component: './Error/404',
       }
     ]
